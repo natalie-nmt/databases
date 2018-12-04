@@ -1,0 +1,96 @@
+1. What data types do each of these values represent?
+
+- "A Clockwork Orange" - string
+- 42 - integer
+- 09/02/1945 - string, or integer IF it were formatted without the backslashes.
+- 98.7 - float
+- $15.99 - string, or float if $ was not applied in front of the value.
+
+2. Explain when a database would be used. Explain when a text file would be used.
+
+A text file would be used if you're the only person managing data, the data doesn't change often, and there's not much data to begin with. Once you have more data that changes often, and especially if there are multiple people/services changing the data—possibly even at the same time—then using a database is the best and most efficient option.
+
+3. Describe one difference between SQL and other programming languages.
+
+SQL is a "declarative" vs. "procedural" language, meaning you define what data you want, vs. defining the process with which you want to retrieve that data.
+
+4. In your own words, explain how the pieces of a database system fit together at a high level.
+
+Related data is contained in a "table," which contains rows of more closely related data, columns of a similar type of data, and individual values as cells within the table. Multiple tables of data may exist in a database.
+
+5. Explain the meaning of table, row, column, and value.
+
+Tables are the structure of the given data, columns describe the type of data contained, rows indicate values that are related. (ex. One piece of "data" may contain several different values, but they all belong to that piece of data.) Values are the individual numbers, strings, etc that exist within a database.
+
+6. List three data types that can be used in a table.
+
+Integers, strings, and floats.
+
+7. Given this payments table, provide an English description of the following queries and include their results:
+
+     SELECT date, amount
+     FROM payments;
+
+Give me all the date column values and the amount column values from the payments table. Results: 
+date		amount
+'2016-05-01'	1500.00
+'2016-05-10'	37.00
+'2016-05-15'	124.93
+'2016-05-23'	54.72
+
+     SELECT amount
+     FROM payments
+     WHERE amount > 500;
+
+Give me all of the values in the amount column that are greater than 500 from the payments table. Result:
+
+amount
+1500.00
+
+     SELECT *
+     FROM payments
+     WHERE payee = 'Mega Foods';
+
+Give me all of the values from the payments table where the payee is equal to 'Mega Foods.' Result:
+
+date		payee		amount	memo	
+'2016-05-15'	'Mega Foods'	124.93	'Groceries'
+
+SELECT name, email
+FROM users
+WHERE userid = 3;
+
+8. Given this users table, write SQL queries using the following criteria and include the output:
+
+- The email and sign-up date for the user named DeAndre Data.
+
+SELECT email, signup
+FROM users
+WHERE name = 'DeAndre Data'
+
+Result:
+
+email			signup
+'datad@comcast.net'	'2008-01-20'
+
+- The user ID for the user with email 'aleesia.algorithm@uw.edu'.
+
+SELECT userid
+FROM users
+WHERE email = 'aleesia.algorithm@uw.edu'
+
+Result:
+
+userid
+1
+
+- All the columns for the user ID equal to 4.
+
+SELECT *
+FROM users
+WHERE userid == 4
+
+Result:
+
+userid	name			email			signup
+4	'Brandy Boolean'	'bboolean@nasa.gov'	'1999-10-15'
