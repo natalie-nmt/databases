@@ -2,9 +2,9 @@
 
 - "A Clockwork Orange" - string
 - 42 - integer
-- 09/02/1945 - string, or integer IF it were formatted without the backslashes.
+- 09/02/1945 - date
 - 98.7 - float
-- $15.99 - string, or float if $ was not applied in front of the value.
+- $15.99 - decimal
 
 2. Explain when a database would be used. Explain when a text file would be used.
 
@@ -16,7 +16,9 @@ SQL is a "declarative" vs. "procedural" language, meaning you define what data y
 
 4. In your own words, explain how the pieces of a database system fit together at a high level.
 
-Related data is contained in a "table," which contains rows of more closely related data, columns of a similar type of data, and individual values as cells within the table. Multiple tables of data may exist in a database.
+A database is a data-management application with a user interface that more easily allows users to interact with the database. A database's binary files contain structures that help the database read and change data (following a user input) efficiently. 
+
+Within the database, related data is stored in a "table," which contains rows of more closely related data, columns of a similar type of data, and individual values as cells within the table. Multiple tables of data may exist in a database.
 
 5. Explain the meaning of table, row, column, and value.
 
