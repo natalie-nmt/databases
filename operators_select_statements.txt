@@ -1,0 +1,181 @@
+1. Write out a generic SELECT statement.
+
+Informal example:
+
+SELECT all* or a specific column of data
+FROM this table
+WHERE x piece of data narrows it down;
+
+Example:
+
+SELECT column3
+FROM table
+WHERE id=4;
+
+2. Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
+
+SFW - Seriously Foggy Windows
+
+3. Given this dogs table, write queries to select the following pieces of data:
+
+Intake teams typically guess the breed of shelter dogs, so the breed column may have multiple words (for example, "Labrador Collie mix").
+
+Display the name, gender, and age of all dogs that are part Labrador.
+
+SELECT name, gender, age FROM dogs WHERE breed LIKE '%labrador%';
+
+  name  | gender | age 
+--------+--------+-----
+ Boujee | F      |   3
+ Marley | M      |   0
+(2 rows)
+
+Display the ids of all dogs that are under 1 year old.
+
+SELECT id FROM dogs WHERE age<1;
+
+  id   
+-------
+ 10002
+ 10004
+(2 rows)
+
+Display the name and age of all dogs that are female and over 35lbs.
+
+SELECT name, age FROM dogs WHERE gender=F AND weight>35;
+
+  name  | age 
+--------+-----
+ Boujee |   3
+(1 row)
+
+Display all of the information about all dogs that are not Shepherd mixes.
+
+SELECT * FROM dogs WHERE breed NOT LIKE '%shepherd%';
+
+  id   |   name    | gender | age | weight |       breed        | intake_date | in_foster  
+-------+-----------+--------+-----+--------+--------------------+-------------+------------
+ 10001 | Boujee    | F      |   3 |     36 | labrador poodle    | 2017-06-22  | 
+ 10002 | Munchkin  | F      |   0 |      8 | dachsund chihuahua | 2017-01-13  | 2017-01-31
+ 10004 | Marley    | M      |   0 |     10 | labrador           | 2017-05-04  | 2016-06-20
+ 10006 | Marmaduke | M      |   7 |    150 | great dane         | 2016-03-22  | 2016-05-15
+ 10007 | Rosco     | M      |   5 |    180 | rottweiler         | 2017-04-01  | 
+(5 rows)
+
+Display the id, age, weight, and breed of all dogs that are either over 60lbs or Great Danes.
+
+SELECT id, age, weight, breed FROM dogs WHERE weight>60 OR breed LIKE '%shepherd%';
+
+  id   | age | weight |      breed      
+-------+-----+--------+-----------------
+ 10003 |   7 |     17 | collie shepherd
+ 10006 |   7 |    150 | great dane
+ 10007 |   5 |    180 | rottweiler
+(3 rows)
+
+4. Given this cats table, what records are returned from these queries?
+
+SELECT name, adoption_date FROM cats;
+
+   name   | adoption_date 
+----------+---------------
+ Mushi    | 2016-03-22
+ Seashell | 
+ Azul     | 2016-04-17
+ Victoire | 2016-09-01
+ Nala     | 
+(5 rows)
+
+SELECT name, age FROM cats;
+
+   name   | age 
+----------+-----
+ Mushi    |   1
+ Seashell |   7
+ Azul     |   3
+ Victoire |   7
+ Nala     |   1
+(5 rows)
+
+5. From the cats table, write queries to select the following pieces of data.
+
+Display all the information about all of the available cats.
+
+SELECT * FROM cats;
+
+ id |   name   | gender | age | intake_date | adoption_date 
+----+----------+--------+-----+-------------+---------------
+  1 | Mushi    | M      |   1 | 2016-01-09  | 2016-03-22
+  2 | Seashell | F      |   7 | 2016-01-09  | 
+  3 | Azul     | M      |   3 | 2016-01-11  | 2016-04-17
+  4 | Victoire | M      |   7 | 2016-01-11  | 2016-09-01
+  5 | Nala     | F      |   1 | 2016-01-12  | 
+(5 rows)
+
+Display the name and sex of all cats who are 7 years old.
+
+SELECT name, gender FROM cats WHERE age=7;
+
+   name   | gender 
+----------+--------
+ Seashell | F
+ Victoire | M
+(2 rows)
+
+Find all of the names of the cats, so you don’t choose duplicate names for new cats.
+
+SELECT name FROM cats;
+
+   name   
+----------
+ Mushi
+ Seashell
+ Azul
+ Victoire
+ Nala
+(5 rows)
+
+6. List each comparison operator and explain when you would use it. Include a real world example for each.
+
+> Greater than: Pulls all values greater than a certain value, such as finding all fruits that cost more than $1.05.
+< Less than: Pulls results greater than a certain value, such as all fruits that cost less than $1.05.
+= Equal to: Finds all fruits with a price exactly equal to $1.05
+!= or <> Not equal to: Finds all fruits with a price not equal to $1.05.
+>= Greater than or equal to: Finds all fruits with a price greater than or equal to (for example) $1.05.
+<= Less than or equal to: Finds all fruits with a price less than or equal to $1.05.
+AND: Pulls results that meet all of one or more conditions (ex. all green & blue-swirled gumballs; this would not return gumballs that are all blue or all green).
+OR: Finds results that match any of two or more conditions (ex. a search for green or blue gumballs results in a collection of green and a collection of blue gumballs). 
+NOT: Excludes certain results (ex. All gumballs but NOT green ones).
+IS NULL: Select areas where no values exist (ex. if you wanted to pull a list of all the people who have not yet mentioned what they are bringing to your potluck, but have signed up for the potluck so their name is on the list).
+IS TRUE/IS FALSE: Looks for values where the boolean value is true or false (ex. if all the data in the "is cold" column in a survey of office workers is true or false).
+IS DISTINCT FROM: Helps identify if two or more values are the same or different—and distinguishes between "null" values, as well (ex. If you wanted to confirm that value a and value b were different, but you weren't sure if a value had been entered at all, this would help determine that). 
+BETWEEN: Finds all values between two endpoint values. (Ex. Find all fruits with a price between kiwi ($1.34) and pineapple ($4.00).
+LIKE: Finds values that match or almost match an existing value or string. (Ex. Find all the fruits that start with the letter 'A'.)
+
+7. From the cats table, what data is returned from these queries?
+
+SELECT name FROM cats WHERE gender = 'F';
+
+   name   
+----------
+ Seashell
+ Nala
+(2 rows)
+
+SELECT name FROM cats WHERE age <> 3;
+
+   name   
+----------
+ Mushi
+ Seashell
+ Victoire
+ Nala
+(4 rows)
+
+SELECT ID FROM cats WHERE name != 'Mushi' AND gender = 'M';
+
+ id 
+----
+  3
+  4
+(2 rows)
