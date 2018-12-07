@@ -1,0 +1,253 @@
+1. List the commands for adding, updating, and deleting data.
+
+Adding: 
+
+CREATE TABLE table (
+column1 datatype,
+column2 datatype,
+); 
+
+INSERT INTO table (column1, column2)
+VALUES 
+(data1, data2),
+(data1, data2),
+(data1, data2);
+
+ALTER TABLE table ADD COLUMN description datatype;
+
+Updating:
+
+UPDATE table SET column1=value WHERE data1=x;
+
+Deleting: 
+
+DELETE FROM table WHERE data1=x;
+
+DROP TABLE table;
+
+
+2. Explain the structure for each type of command.
+
+All commands must first reference the action to be taken (update, delete, insert, etc) and then reference the name of the table to create or modify (ex. "DELETE FROM [table]). When first creating a table, you must also specify the data type for each column you want to create. When creating a new column in the future, you will also need to specify the data type.
+
+In the case of adding values, after noting that you would like to insert data into X table, you must specify the names of the columns in that existing table, and then separately list out each value. Each row should be a separate line enclosed by parentheses, and followed by a comma (if further rows are to be added beneath it).
+
+When updating values, you must SET a value by specifying the column and the data to put in that column WHERE an identifying piece of data helps you determine in which row(s) to insert that value.
+
+3. What are some of the data types that can be used in tables? Give a real-world example of each type.
+
+decimal—such as currency (ex. $30.45)
+int—such as the number of x products (ex. 4)
+text—such as a product description (ex. This fleece-lined jacket is...)
+timestamp—a representation of the date and time at that moment (ex. 2018-12-06 08:58:54)
+
+4. Decide how to create a new table to hold a list of people invited to a wedding dinner. The table needs to have first and last names, whether they sent in their RSVP, the number of guests they are bringing, and the number of meals (1 for adults and 1/2 for children).
+
+Which data type would you use to store each of the following pieces of information?
+
+First and last name. - text
+Whether they sent in their RSVP - boolean
+Number of guests. - integer
+Number of meals. - numeric
+
+Write a command that creates the table to track the wedding dinner.
+
+CREATE TABLE dinner (
+  first_name text,
+  last_name text,
+  RSVP boolean,
+  guest_number integer,
+  meal_number numeric(4,1)
+);
+
+
+ first_name | last_name | rsvp | guest_number | meal_number 
+------------+-----------+------+--------------+-------------
+(0 rows)
+
+Write a command that adds a column to track whether the guest sent a thank you card.
+
+ALTER TABLE dinner ADD COLUMN thank_you boolean;
+
+first_name | last_name | rsvp | guest_number | meal_number | thank_you 
+------------+-----------+------+--------------+-------------+-----------
+(0 rows)
+
+You have decided to move the data about the meals to another table, so write a command to remove the column storing the number meals from the wedding table.
+
+ALTER TABLE dinner DROP COLUMN meal_number;
+
+first_name | last_name | rsvp | guest_number | thank_you 
+------------+-----------+------+--------------+-----------
+(0 rows)
+
+The guests will need a place to sit at the reception, so write a command that adds a column for table number.
+
+ALTER TABLE dinner ADD COLUMN table_number integer;
+
+first_name | last_name | rsvp | guest_number | thank_you | table_number 
+------------+-----------+------+--------------+-----------+--------------
+(0 rows)
+
+The wedding is over and we do not need to keep this information, so write a command that deletes the table numbers from the database.
+
+DROP TABLE dinner;
+
+ERROR:  relation "dinner" does not exist
+
+5. Write a command to create a new table to hold the books in a library with the columns ISBN, title, author, genre, publishing date, number of copies, and available copies.
+
+CREATE TABLE library (
+ISBN bigint,
+title text,
+author text,
+genre text,
+publishing_date date,
+total_copies integer,
+available_copies integer 
+);
+
+ isbn | title | author | genre | publishing_date | total_copies | available_copies 
+------+-------+--------+-------+-----------------+--------------+------------------
+(0 rows)
+
+Find three books and add their information to the table.
+
+INSERT INTO library (ISBN, title, author, genre, publishing_date, total_copies, available_copies)
+VALUES
+(9781785031168, 'Ottolenghi: Simple', 'Yotam Ottolenghi', 'cookbook', '2018-01-21', 2, 2),
+(0997896906, 'Cookie Art', 'Amber Spiegel', 'cookbook', '2016-11-01', 1, 1),
+(0982761015, 'Modernist Cuisine at Home', 'Nathan Myhrvold', 'cookbook', '2012-10-08', 1, 1);
+
+     isbn      |           title           |      author      |  genre   | publishing_date | total_copies | available_copies 
+---------------+---------------------------+------------------+----------+-----------------+--------------+------------------
+ 9781785031168 | Ottolenghi: Simple        | Yotam Ottolenghi | cookbook | 2018-01-21      |            2 |                2
+     997896906 | Cookie Art                | Amber Spiegel    | cookbook | 2016-11-01      |            1 |                1
+     982761015 | Modernist Cuisine at Home | Nathan Myhrvold  | cookbook | 2012-10-08      |            1 |                1
+(3 rows)
+
+Someone has just checked out one of the books. Change the number of available copies to 1 fewer.
+
+UPDATE library SET available_copies=0 WHERE ISBN=0982761015;
+
+     isbn      |           title           |      author      |  genre   | publishing_date | total_copies | available_copies 
+---------------+---------------------------+------------------+----------+-----------------+--------------+------------------
+ 9781785031168 | Ottolenghi: Simple        | Yotam Ottolenghi | cookbook | 2018-01-21      |            2 |                2
+     997896906 | Cookie Art                | Amber Spiegel    | cookbook | 2016-11-01      |            1 |                1
+     982761015 | Modernist Cuisine at Home | Nathan Myhrvold  | cookbook | 2012-10-08      |            1 |                0
+
+Now one of the books has been added to the banned books list. Remove it from the table.
+
+DELETE FROM library WHERE isbn=982761015;
+
+    isbn      |       title        |      author      |  genre   | publishing_date | total_copies | available_copies 
+---------------+--------------------+------------------+----------+-----------------+--------------+------------------
+ 9781785031168 | Ottolenghi: Simple | Yotam Ottolenghi | cookbook | 2018-01-21      |            2 |                2
+     997896906 | Cookie Art         | Amber Spiegel    | cookbook | 2016-11-01      |            1 |                1
+(2 rows)
+
+
+6. Write a command to make a new table to hold spacecrafts. Information should include id, name, year launched, country of origin, a brief description of the mission, orbiting body, if it is currently operating, and its approximate miles from Earth. In addition to the table creation, provide commands that perform the following operations:
+
+CREATE TABLE spacecrafts (
+id integer,
+name text,
+year_launched integer,
+country_of_origin text,
+mission_description text,
+orbiting_body text,
+miles_from_earth bigint 
+);
+
+id | name | year_launched | country_of_origin | mission_description | orbiting_body | miles_from_earth 
+----+------+---------------+-------------------+---------------------+---------------+------------------
+(0 rows)
+
+Add three non-Earth-orbiting satellites to the table.
+
+INSERT INTO spacecrafts (id, name, year_launched, country_of_origin, mission_description, orbiting_body, miles_from_earth)
+VALUES
+(789, 'Mariner 9', 1971, 'USA', 'Photograph surface of Mars', 'Mars', 33926867),
+(482, 'Voyager 1', 1977, 'USA', 'Study the outer solar system', 'Jupiter', 365366261),
+(5732, 'Galileo', 1989, 'USA', 'Study Jupiter and its moons', 'Jupiter', 365366261); 
+
+  id  |   name    | year_launched | country_of_origin |     mission_description      | orbiting_body | miles_from_earth 
+------+-----------+---------------+-------------------+------------------------------+---------------+------------------
+  789 | Mariner 9 |          1971 | USA               | Photograph surface of Mars   | Mars          |         33926867
+  482 | Voyager 1 |          1977 | USA               | Study the outer solar system | Jupiter       |        365366261
+ 5732 | Galileo   |          1989 | USA               | Study Jupiter and its moons  | Jupiter       |        365366261
+(3 rows)
+
+Remove one of the satellites from the table since it has just crashed into the planet.
+
+DELETE FROM spacecrafts WHERE id=789;
+
+  id  |   name    | year_launched | country_of_origin |     mission_description      | orbiting_body | miles_from_earth 
+------+-----------+---------------+-------------------+------------------------------+---------------+------------------
+  482 | Voyager 1 |          1977 | USA               | Study the outer solar system | Jupiter       |        365366261
+ 5732 | Galileo   |          1989 | USA               | Study Jupiter and its moons  | Jupiter       |        365366261
+(2 rows)
+
+Edit another satellite because it is no longer operating and change the value to reflect that.
+
+ALTER TABLE spacecrafts ADD COLUMN still_operational boolean;
+
+UPDATE spacecrafts SET still_operational=false WHERE id=482;
+
+  id  |   name    | year_launched | country_of_origin |     mission_description      | orbiting_body | miles_from_earth | still_operational 
+------+-----------+---------------+-------------------+------------------------------+---------------+------------------+-------------------
+ 5732 | Galileo   |          1989 | USA               | Study Jupiter and its moons  | Jupiter       |        365366261 | 
+  482 | Voyager 1 |          1977 | USA               | Study the outer solar system | Jupiter       |        365366261 | f
+(2 rows)
+
+7. Write a command to create a new table to hold the emails in your inbox. This table should include an id, the subject line, the sender, any additional recipients, the body of the email, the timestamp, whether or not you have read the email, and the id of the email chain it's in. Also provide commands that perform the following operations:
+
+CREATE TABLE inbox (
+id integer,
+subject_line varchar(50),
+sender text,
+recipients text[],
+body text,
+timestamp timestamp,
+read boolean,
+chain_id integer
+);
+
+id | subject_line | sender | recipients | body | timestamp | read | chain_id 
+----+--------------+--------+------------+------+-----------+------+----------
+(0 rows)
+
+Add three new emails to the inbox.
+
+INSERT INTO inbox (id, subject_line, sender, recipients, body, timestamp, read, chain_id)
+VALUES
+(34, 'This is the best email ever!', 'Natalie Thomas', '{ Bob Thornton, Jerry Jerryson, Marissa Maisel }', 'Hey there! How are you doing today? Just wanted to check in and see if we are ready for the party on Sunday.', '2018-12-01 20:38:40', true, 4),
+(35, 'Hey, just testing out my new email account', 'George Georgison', '{ Bob Thornton, Jerry Jerryson, Marissa Maisel, Natalie Thomas }', 'Is this working for you? I just got a new email account and wanted to try it out with my friends. Please respond and let me know if you received this!', '2018-12-02 21:34:30', false, 3),
+(36, 'Read this immediately', 'Ruby Clark', '{ Natalie Thomas, Andy Clark }', 'Excuse me, but you are three hours overdue for my dinner. I have been patiently staring at you for several minutes, but this is getting ridiculous. I am starving. Sincerely, your dog, Ruby.', '2018-12-06 20:18:40', true, 2);
+
+ id |                subject_line                |      sender      |                             recipients                              |                                                                                             body                                                                                              |      timestamp      | read | chain_id 
+----+--------------------------------------------+------------------+---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+------+----------
+ 34 | This is the best email ever!               | Natalie Thomas   | {"Bob Thornton","Jerry Jerryson","Marissa Maisel"}                  | Hey there! How are you doing today? Just wanted to check in and see if we are ready for the party on Sunday.                                                                                  | 2018-12-01 20:38:40 | t    |        4
+ 35 | Hey, just testing out my new email account | George Georgison | {"Bob Thornton","Jerry Jerryson","Marissa Maisel","Natalie Thomas"} | Is this working for you? I just got a new email account and wanted to try it out with my friends. Please respond and let me know if you received this!                                        | 2018-12-02 21:34:30 | f    |        3
+ 36 | Read this immediately                      | Ruby Clark       | {"Natalie Thomas","Andy Clark"}                                     | Excuse me, but you are three hours overdue for my dinner. I have been patiently staring at you for several minutes, but this is getting ridiculous. I am starving. Sincerely, your dog, Ruby. | 2018-12-06 20:18:40 | t    |        2
+(3 rows)
+
+You deleted one of the emails, so write a command to remove the row from the inbox table.
+
+DELETE FROM inbox WHERE id=34;
+
+ id |                subject_line                |      sender      |                             recipients                              |                                                                                             body                                                                                              |      timestamp      | read | chain_id 
+----+--------------------------------------------+------------------+---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+------+----------
+ 35 | Hey, just testing out my new email account | George Georgison | {"Bob Thornton","Jerry Jerryson","Marissa Maisel","Natalie Thomas"} | Is this working for you? I just got a new email account and wanted to try it out with my friends. Please respond and let me know if you received this!                                        | 2018-12-02 21:34:30 | f    |        3
+ 36 | Read this immediately                      | Ruby Clark       | {"Natalie Thomas","Andy Clark"}                                     | Excuse me, but you are three hours overdue for my dinner. I have been patiently staring at you for several minutes, but this is getting ridiculous. I am starving. Sincerely, your dog, Ruby. | 2018-12-06 20:18:40 | t    |        2
+(2 rows)
+
+You started reading an email but just heard a crash in another room. Mark the email as unread before investigating the crash, so you can come back and read it later.
+
+UPDATE inbox SET read=false WHERE id=36;
+
+ id |                subject_line                |      sender      |                             recipients                              |                                                                                             body                                                                                              |      timestamp      | read | chain_id 
+----+--------------------------------------------+------------------+---------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+------+----------
+ 35 | Hey, just testing out my new email account | George Georgison | {"Bob Thornton","Jerry Jerryson","Marissa Maisel","Natalie Thomas"} | Is this working for you? I just got a new email account and wanted to try it out with my friends. Please respond and let me know if you received this!                                        | 2018-12-02 21:34:30 | f    |        3
+ 36 | Read this immediately                      | Ruby Clark       | {"Natalie Thomas","Andy Clark"}                                     | Excuse me, but you are three hours overdue for my dinner. I have been patiently staring at you for several minutes, but this is getting ridiculous. I am starving. Sincerely, your dog, Ruby. | 2018-12-06 20:18:40 | f    |        2
+(2 rows)
